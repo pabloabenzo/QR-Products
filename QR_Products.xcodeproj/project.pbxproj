@@ -6,6 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DDE521602E04FD1100ECF450 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DDE5215F2E04FD1100ECF450 /* Alamofire */; };
+		DDE521632E04FD4200ECF450 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = DDE521622E04FD4200ECF450 /* FirebaseAI */; };
+		DDE521652E04FD4200ECF450 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DDE521642E04FD4200ECF450 /* FirebaseAnalytics */; };
+		DDE521672E04FD4200ECF450 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DDE521662E04FD4200ECF450 /* FirebaseAuth */; };
+		DDE521692E04FD4200ECF450 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = DDE521682E04FD4200ECF450 /* FirebaseCore */; };
+		DDE5216C2E04FD6500ECF450 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DDE5216B2E04FD6500ECF450 /* KeychainSwift */; };
+		DDE5216F2E04FD7900ECF450 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = DDE5216E2E04FD7900ECF450 /* GoogleSignIn */; };
+		DDE521712E04FD7900ECF450 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DDE521702E04FD7900ECF450 /* GoogleSignInSwift */; };
+		DDE521742E04FD9B00ECF450 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DDE521732E04FD9B00ECF450 /* SwiftyJSON */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		DDE5204E2E04E9C700ECF450 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +77,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDE521742E04FD9B00ECF450 /* SwiftyJSON in Frameworks */,
+				DDE5216C2E04FD6500ECF450 /* KeychainSwift in Frameworks */,
+				DDE521602E04FD1100ECF450 /* Alamofire in Frameworks */,
+				DDE521692E04FD4200ECF450 /* FirebaseCore in Frameworks */,
+				DDE521712E04FD7900ECF450 /* GoogleSignInSwift in Frameworks */,
+				DDE521632E04FD4200ECF450 /* FirebaseAI in Frameworks */,
+				DDE521652E04FD4200ECF450 /* FirebaseAnalytics in Frameworks */,
+				DDE521672E04FD4200ECF450 /* FirebaseAuth in Frameworks */,
+				DDE5216F2E04FD7900ECF450 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +146,15 @@
 			);
 			name = QR_Products;
 			packageProductDependencies = (
+				DDE5215F2E04FD1100ECF450 /* Alamofire */,
+				DDE521622E04FD4200ECF450 /* FirebaseAI */,
+				DDE521642E04FD4200ECF450 /* FirebaseAnalytics */,
+				DDE521662E04FD4200ECF450 /* FirebaseAuth */,
+				DDE521682E04FD4200ECF450 /* FirebaseCore */,
+				DDE5216B2E04FD6500ECF450 /* KeychainSwift */,
+				DDE5216E2E04FD7900ECF450 /* GoogleSignIn */,
+				DDE521702E04FD7900ECF450 /* GoogleSignInSwift */,
+				DDE521732E04FD9B00ECF450 /* SwiftyJSON */,
 			);
 			productName = QR_Products;
 			productReference = DDE520342E04E9C500ECF450 /* QR_Products.app */;
@@ -208,6 +238,13 @@
 			);
 			mainGroup = DDE5202B2E04E9C500ECF450;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DDE5215E2E04FD1100ECF450 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				DDE521612E04FD4200ECF450 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				DDE5216A2E04FD6500ECF450 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				DDE5216D2E04FD7900ECF450 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				DDE521722E04FD9B00ECF450 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DDE520352E04E9C500ECF450 /* Products */;
 			projectDirPath = "";
@@ -292,6 +329,8 @@
 				DEVELOPMENT_TEAM = 8N4L68RSBL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QR_Products/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceso a la cámara para escanear códigos QR.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -320,6 +359,8 @@
 				DEVELOPMENT_TEAM = 8N4L68RSBL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QR_Products/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceso a la cámara para escanear códigos QR.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -571,6 +612,97 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DDE5215E2E04FD1100ECF450 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		DDE521612E04FD4200ECF450 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
+		DDE5216A2E04FD6500ECF450 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+		DDE5216D2E04FD7900ECF450 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		DDE521722E04FD9B00ECF450 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DDE5215F2E04FD1100ECF450 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE5215E2E04FD1100ECF450 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		DDE521622E04FD4200ECF450 /* FirebaseAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE521612E04FD4200ECF450 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
+		};
+		DDE521642E04FD4200ECF450 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE521612E04FD4200ECF450 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		DDE521662E04FD4200ECF450 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE521612E04FD4200ECF450 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		DDE521682E04FD4200ECF450 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE521612E04FD4200ECF450 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		DDE5216B2E04FD6500ECF450 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE5216A2E04FD6500ECF450 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+		DDE5216E2E04FD7900ECF450 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE5216D2E04FD7900ECF450 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		DDE521702E04FD7900ECF450 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE5216D2E04FD7900ECF450 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		DDE521732E04FD9B00ECF450 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE521722E04FD9B00ECF450 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DDE5202C2E04E9C500ECF450 /* Project object */;
 }
