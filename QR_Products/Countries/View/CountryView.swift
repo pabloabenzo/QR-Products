@@ -104,18 +104,6 @@ struct CountryView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(productsUI.colorManager(color: "base_white"))
-                    Text("Volver")
-                        .foregroundColor(productsUI.colorManager(color: "base_white"))
-                }
-            }
-        }
     }
 
     private func loadAndNavigateToA() {
