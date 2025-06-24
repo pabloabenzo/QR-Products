@@ -1,5 +1,5 @@
 //
-//  QRProductsViewModel.swift
+//  APIViewModel.swift
 //  QR_Products
 //
 //  Created by Pablo Benzo on 12/06/2025.
@@ -10,7 +10,7 @@ import Observation
 import Combine
 
 @Observable
-final class QRProductsViewModel: ObservableObject {
+final class APIViewModel: ObservableObject {
     
     var url = URL(string: "https://fakestoreapi.com/products")
     var urlPlatzi = URL(string: "https://api.escuelajs.co/api/v1/products")

@@ -11,7 +11,7 @@ import KeychainSwift
 
 class LoginViewController: UIViewController {
     
-    var viewModel = QRProductsViewModel()
+    var viewModel = APIViewModel()
     var loginAuth = LoginAuth()
     var productsUI = ProductsUI()
     
@@ -127,7 +127,7 @@ class LoginViewController: UIViewController {
         activityIndicator.startAnimating()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.activityIndicator.stopAnimating()
-            let countryVC = UIHostingController(rootView: CountryView())
+            let countryVC = UIHostingController(rootView: HomeView())
             self.navigationController?.pushViewController(countryVC, animated: true)
         }
     }
@@ -147,7 +147,7 @@ class LoginViewController: UIViewController {
         Task {
             do {
                 try await loginAuth.signInWithGoogle()
-                let countryVC = UIHostingController(rootView: CountryView())
+                let countryVC = UIHostingController(rootView: HomeView())
                 self.navigationController?.pushViewController(countryVC, animated: true)
             } catch {
                 let alert = UIAlertController(title: "Error", message: "Error al iniciar sesión con Google: \(error.localizedDescription)", preferredStyle: .alert)

@@ -1,5 +1,5 @@
 //
-//  CountryView.swift
+//  HomeView.swift
 //  QR_Products
 //
 //  Created by Pablo Benzo on 12/06/2025.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct CountryView: View {
+struct HomeView: View {
     
-    var viewModel = QRProductsViewModel()
+    var viewModel = APIViewModel()
     var productsUI = ProductsUI()
     @Environment(\.dismiss) private var dismiss
 
@@ -102,6 +102,8 @@ struct CountryView: View {
                     }
                 }
             }
+            .navigationTitle("Inicio")
+            .navigationBarTitleDisplayMode(.large)
         }
         .navigationBarBackButtonHidden(true)
     }
@@ -125,5 +127,5 @@ struct CountryView: View {
 }
 
 #Preview {
-    CountryView()
+    HomeView()
 }

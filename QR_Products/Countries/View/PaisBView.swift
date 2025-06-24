@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PaisBView: View {
     
-    var viewModel = QRProductsViewModel()
+    var viewModel = APIViewModel()
     var productsUI = ProductsUI()
     
     @State private var products: [ProductDataPlatzi] = []
@@ -109,6 +109,7 @@ struct PaisBView: View {
             }
         }
         .onAppear {
+            navigateTo = false
             Task {
                 do {
                     products = try await viewModel.fetchData(from: viewModel.urlPlatzi!)

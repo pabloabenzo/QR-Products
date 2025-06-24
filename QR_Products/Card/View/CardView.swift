@@ -10,10 +10,12 @@ import SwiftUI
 struct CardView: View {
     
     var productsUI = ProductsUI()
+    @State private var isProgressView = false
+    @State private var isNavigatingToHome = false
     @Environment(\.dismiss) private var dismiss
     
     @StateObject private var cardVM = CardViewModel()
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -43,7 +45,16 @@ struct CardView: View {
                     }
                     
                     Button("Pagar") {
+                        isProgressView = true
                         cardVM.pay()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            isProgressView = false
+                            if cardVM.isPaymentValid {
+                                cardVM.paymentSuccess = true
+                            } else {
+                                cardVM.showError = true
+                            }
+                        }
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -59,7 +70,9 @@ struct CardView: View {
                     .navigationTitle("Pago")
                 }
                 .alert("Pago exitoso", isPresented: $cardVM.paymentSuccess) {
-                    Button("OK", role: .cancel) { }
+                    Button("OK", role: .cancel) {
+                        isNavigatingToHome = true
+                    }
                 }
                 .alert("Datos inválidos", isPresented: $cardVM.showError) {
                     Button("Intentar de nuevo", role: .cancel) { }
@@ -67,10 +80,23 @@ struct CardView: View {
                     Text("Verifica que todos los campos sean correctos.")
                 }
                 .navigationTitle("Pago")
-                .background(
-                    NavigationCoordinator(navigateToHome: $cardVM.navigateToHome)
-                )
+                
+                if isProgressView {
+                    ZStack {
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.5)
+                    }
+                }
+                
+                NavigationLink(
+                    destination: HomeView(),
+                    isActive: $isNavigatingToHome
+                ) { EmptyView() }
             }
+            
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -85,41 +111,6 @@ struct CardView: View {
                 }
             }
         }
-    }
-
-}
-
-// Struct para poder navegar desde SwiftUI a un UIViewController.
-struct NavigationCoordinator: UIViewControllerRepresentable {
-    @Binding var navigateToHome: Bool
-
-    func makeUIViewController(context: Context) -> UIViewController {
-        let controller = UIViewController()
-        controller.view.backgroundColor = .clear
-        return controller
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if navigateToHome && !context.coordinator.hasPushed {
-            context.coordinator.hasPushed = true
-            let productsVC = LoginViewController()
-            if let nav = uiViewController.navigationController {
-                nav.pushViewController(productsVC, animated: true)
-                DispatchQueue.main.async {
-                    self.navigateToHome = false
-                    context.coordinator.hasPushed = false
-                }
-            }
-        }
-    }
-    
-    // Coordinator para evitar multiples cargas en la home.
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
-    }
-
-    class Coordinator {
-        var hasPushed = false
     }
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PaisAView: View {
     
-    var viewModel = QRProductsViewModel()
+    var viewModel = APIViewModel()
     var productsUI = ProductsUI()
     
     @State private var products: [ProductData] = []
@@ -20,7 +20,6 @@ struct PaisAView: View {
     @State private var showModal = false
     @State private var scannedCode = ""
     @State private var navigateTo = false
-    @State private var navigateBackToCountry = false
     @State private var showAlert = false
     
     var body: some View {
@@ -91,15 +90,12 @@ struct PaisAView: View {
             NavigationLink(destination: CardView(), isActive: $navigateTo) {
                 EmptyView()
             }
-            NavigationLink(destination: CountryView(), isActive: $navigateBackToCountry) {
-                EmptyView()
-            }
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    navigateBackToCountry = true
+                    dismiss()
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(productsUI.colorManager(color: "system_blue"))
@@ -109,6 +105,7 @@ struct PaisAView: View {
             }
         }
         .onAppear {
+            navigateTo = false
             Task {
                 do {
                     products = try await viewModel.fetchData(from: viewModel.url!)

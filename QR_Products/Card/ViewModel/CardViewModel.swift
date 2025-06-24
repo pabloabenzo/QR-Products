@@ -17,13 +17,13 @@ class CardViewModel: ObservableObject {
     var showError: Bool = false
     var paymentSuccess: Bool = false
     var navigateToHome: Bool = false
+    var isPaymentValid: Bool = false
 
     func pay() {
         if isCardValid() {
-            paymentSuccess = true
-            navigateToHome = true
+            isPaymentValid = true
         } else {
-            showError = true
+            isPaymentValid = false
         }
     }
 
