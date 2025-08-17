@@ -36,12 +36,13 @@ struct CardView: View {
                         TextField("Número de tarjeta", text: $cardVM.cardNumber)
                             .keyboardType(.numberPad)
                         
+                        TextField("Expiración (MM/YY)", text: $cardVM.expiration)
+                            .keyboardType(.numbersAndPunctuation)
+                        
                         TextField("CVV", text: $cardVM.cvv)
                             .keyboardType(.numberPad)
                             .frame(width: 80)
                         
-                        TextField("Expiración (MM/YY)", text: $cardVM.expiration)
-                            .keyboardType(.numbersAndPunctuation)
                     }
                     
                     Button("Pagar") {
@@ -106,7 +107,7 @@ struct CardView: View {
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(productsUI.colorManager(color: "system_blue"))
-                    Text("Volver")
+                    Text("Back")
                         .foregroundColor(productsUI.colorManager(color: "system_blue"))
                 }
             }

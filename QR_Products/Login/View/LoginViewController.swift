@@ -38,35 +38,35 @@ class LoginViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         
         let titleLabel = UILabel()
-        titleLabel.text = "Bienvenidos a QR PRODUCTS"
+        titleLabel.text = "Welcome to QR PRODUCTS"
         titleLabel.font = UIFont(name: "Montserrat", size: 35)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         
-        usuarioTextField.placeholder = "Usuario"
+        usuarioTextField.placeholder = "User"
         usuarioTextField.keyboardType = .emailAddress
         usuarioTextField.borderStyle = .roundedRect
         usuarioTextField.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        passwordTextField.placeholder = "Contraseña"
+        passwordTextField.placeholder = "Password"
         passwordTextField.isSecureTextEntry = true
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        loginButton.setTitle("Inicia Sesión", for: .normal)
+        loginButton.setTitle("Login", for: .normal)
         loginButton.backgroundColor = productsUI.uiColorManager(color: "primary")
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.layer.cornerRadius = 6
         loginButton.addTarget(self, action: #selector(loadAndNavigate), for: .touchUpInside)
         loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        forgotPasswordButton.setTitle("¿Has olvidado tu contraseña?", for: .normal)
+        forgotPasswordButton.setTitle("Have you forgotten your password?", for: .normal)
         forgotPasswordButton.setTitleColor(productsUI.uiColorManager(color: "primary"), for: .normal)
         forgotPasswordButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        googleButton.setTitle("Continuar con Google", for: .normal)
+        googleButton.setTitle("Login with Google", for: .normal)
         googleButton.setTitleColor(productsUI.uiColorManager(color: "primary"), for: .normal)
         googleButton.backgroundColor = productsUI.uiColorManager(color: "base_white")
         googleButton.layer.cornerRadius = 6
@@ -116,7 +116,7 @@ class LoginViewController: UIViewController {
         dismissKeyboard()
         
         guard isLoginValid() else {
-            let alert = UIAlertController(title: "Error", message: "Credenciales incorrectas", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Error", message: "Incorrect user and password.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
             return
@@ -134,7 +134,7 @@ class LoginViewController: UIViewController {
     
     private func isLoginValid() -> Bool {
         return usuarioTextField.text == "pbenzo@apple.com"
-            && passwordTextField.text == "claveSegura123"
+            && passwordTextField.text == "safeCode123"
     }
     
      private func preloadUsername() {
@@ -150,7 +150,7 @@ class LoginViewController: UIViewController {
                 let countryVC = UIHostingController(rootView: HomeView())
                 self.navigationController?.pushViewController(countryVC, animated: true)
             } catch {
-                let alert = UIAlertController(title: "Error", message: "Error al iniciar sesión con Google: \(error.localizedDescription)", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Error", message: "Error logging in with Google: \(error.localizedDescription)", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(alert, animated: true)
             }

@@ -38,16 +38,16 @@ struct HomeView: View {
                 VStack {
                     
                     VStack {
-                        Text("Seleccione el país de residencia:")
+                        Text("Please select the country of residence:")
                             .font(.custom("Montserrat", size: 18))
                             .tint(productsUI.colorManager(color: "base_black"))
                             .multilineTextAlignment(.leading)
                     }
-                    .padding(.leading, -50).padding(.bottom, 100)
+                    .padding(.leading, 10).padding(.bottom, 100)
                     
                     Button(action: loadAndNavigateToA) {
                         
-                            Text("País A")
+                            Text("A Country")
                                 .font(.custom("Montserrat", size: 16))
                                 .tint(productsUI.colorManager(color: "base_white"))
                                 .multilineTextAlignment(.leading)
@@ -61,7 +61,7 @@ struct HomeView: View {
                     
                     Button(action: loadAndNavigateToB) {
                         
-                        Text("País B")
+                        Text("B Country")
                             .font(.custom("Montserrat", size: 16))
                             .tint(productsUI.colorManager(color: "base_white"))
                             .multilineTextAlignment(.leading)
@@ -102,7 +102,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("Inicio")
+            .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.large)
         }
         .navigationBarBackButtonHidden(true)

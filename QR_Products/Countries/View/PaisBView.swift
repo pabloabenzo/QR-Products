@@ -83,11 +83,11 @@ struct PaisBView: View {
                 .sheet(isPresented: $showModal) {
                     ModalView(
                         title: selectedProduct?.title ?? "",
-                        description: selectedProduct?.description ?? "No hay descripcion disponible para este producto.",
+                        description: selectedProduct?.description ?? "There is no description available for this product.",
                         scannedCode: $scannedCode
                     )
                 }
-                .navigationTitle("Pais B")
+                .navigationTitle("B Country")
                 .navigationBarTitleDisplayMode(.large)
             }
             
@@ -103,7 +103,7 @@ struct PaisBView: View {
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(productsUI.colorManager(color: "system_blue"))
-                    Text("Volver")
+                    Text("Back")
                         .foregroundColor(productsUI.colorManager(color: "system_blue"))
                 }
             }
@@ -114,7 +114,7 @@ struct PaisBView: View {
                 do {
                     products = try await viewModel.fetchData(from: viewModel.urlPlatzi!)
                 } catch {
-                    print("Error al cargar los productos: \(error)")
+                    print("Error loading products: \(error)")
                 }
             }
         }
@@ -136,10 +136,10 @@ struct PaisBView: View {
                 scannedCode = ""
             }
         }
-        .alert("Código inválido", isPresented: $showAlert) {
+        .alert("Invalid code", isPresented: $showAlert) {
             Button("OK", role: .cancel) { }
         } message: {
-            Text("El código QR escaneado no pertenece a ningun producto.")
+            Text("The scanned QR code does not belong to any product.")
         }
     }
 }

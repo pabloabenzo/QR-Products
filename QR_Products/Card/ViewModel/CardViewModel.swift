@@ -28,8 +28,8 @@ class CardViewModel: ObservableObject {
     }
 
     private func isCardValid() -> Bool {
-        cardNumber.replacingOccurrences(of: " ", with: "") == "4200224420002244"
+        cardNumber.replacingOccurrences(of: " ", with: "") == "1234234534564567"
+        && expiration == "12/28"
         && cvv == "182"
-        && expiration == "12/25"
     }
 }
