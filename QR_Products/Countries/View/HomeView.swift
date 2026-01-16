@@ -9,8 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     
-    var viewModel = APIViewModel()
-    var productsUI = ProductsUI()
+    @State private var viewModel = APIViewModel()
+    @State private var productsUI = ProductsUI()
     @Environment(\.dismiss) private var dismiss
 
     @State private var progress = 0.6
@@ -124,8 +124,4 @@ struct HomeView: View {
         }
     }
 
-}
-
-#Preview {
-    HomeView()
 }

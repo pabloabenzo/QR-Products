@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ModalView: View {
     
-    var productsUI = ProductsUI()
+    @State private var productsUI = ProductsUI()
     
     let title: String
     let description: String

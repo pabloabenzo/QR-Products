@@ -9,12 +9,12 @@ import SwiftUI
 
 struct CardView: View {
     
-    var productsUI = ProductsUI()
+    @State private var cardVM = CardViewModel()
+    @State private var productsUI = ProductsUI()
+    
     @State private var isProgressView = false
     @State private var isNavigatingToHome = false
     @Environment(\.dismiss) private var dismiss
-    
-    @StateObject private var cardVM = CardViewModel()
     
     var body: some View {
         NavigationStack {
@@ -115,6 +115,6 @@ struct CardView: View {
     }
 }
 
-#Preview {
-    CardView()
-}
+//#Preview {
+//    CardView()
+//}

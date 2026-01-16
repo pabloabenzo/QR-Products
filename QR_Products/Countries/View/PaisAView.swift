@@ -9,8 +9,8 @@ import SwiftUI
 
 struct PaisAView: View {
     
-    var viewModel = APIViewModel()
-    var productsUI = ProductsUI()
+    @State private var viewModel = APIViewModel()
+    @State private var productsUI = ProductsUI()
     
     @State private var products: [ProductData] = []
     @State private var selectedProduct: ProductData? = nil

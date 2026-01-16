@@ -10,8 +10,8 @@ import SwiftUI
 
 struct PaisBView: View {
     
-    var viewModel = APIViewModel()
-    var productsUI = ProductsUI()
+    @State private var viewModel = APIViewModel()
+    @State private var productsUI = ProductsUI()
     
     @State private var products: [ProductDataPlatzi] = []
     @State private var selectedProduct: ProductDataPlatzi? = nil
@@ -144,6 +144,6 @@ struct PaisBView: View {
     }
 }
 
-#Preview {
-    PaisBView()
-}
+//#Preview {
+//    PaisBView()
+//}
