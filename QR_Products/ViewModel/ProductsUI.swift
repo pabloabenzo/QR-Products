@@ -1,16 +1,9 @@
-//
-//  ProductsUI.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import UIKit
 import SwiftUI
 
 @MainActor
-final class ProductsUI: ObservableObject {
-    
+@Observable
+final class ProductsUI {
     public var deviceHeight = UIScreen.main.bounds.height
     public var deviceWidth = UIScreen.main.bounds.width
 
@@ -57,12 +50,10 @@ final class ProductsUI: ObservableObject {
         }
     }
 
-    // Uso en SwiftUI
     func colorManager(color: String) -> Color {
         AppColor(from: color).color
     }
 
-    // Uso en UIKit
     func uiColorManager(color: String) -> UIColor {
         AppColor(from: color).uiColor
     }
@@ -70,5 +61,4 @@ final class ProductsUI: ObservableObject {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
-    
 }

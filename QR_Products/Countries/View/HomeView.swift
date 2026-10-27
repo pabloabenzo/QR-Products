@@ -1,29 +1,9 @@
-//
-//  HomeView.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import SwiftUI
 
 struct HomeView: View {
     
-    @State private var viewModel = APIViewModel()
+    @State var presenter: HomePresenter
     @State private var productsUI = ProductsUI()
-    @Environment(\.dismiss) private var dismiss
-
-    @State private var progress = 0.6
-    @State var showView = false
-    
-    @State var usuario: String = ""
-    @State var password: String = ""
-    
-    // ProgressView
-    @State private var isNavigatingToA = false
-    @State private var isLoadingToA = false
-    @State private var isNavigatingToB = false
-    @State private var isLoadingToB = false
     
     var body: some View {
         NavigationStack {
@@ -36,7 +16,6 @@ struct HomeView: View {
                     }
                 
                 VStack {
-                    
                     VStack {
                         Text("Please select the country of residence:")
                             .font(.custom("Montserrat", size: 18))
@@ -45,13 +24,15 @@ struct HomeView: View {
                     }
                     .padding(.leading, 10).padding(.bottom, 100)
                     
-                    Button(action: loadAndNavigateToA) {
-                        
-                            Text("A Country")
-                                .font(.custom("Montserrat", size: 16))
-                                .tint(productsUI.colorManager(color: "base_white"))
-                                .multilineTextAlignment(.leading)
-                        
+                    Button(action: {
+                        Task {
+                            await presenter.action(.navigateToA)
+                        }
+                    }) {
+                        Text("A Country")
+                            .font(.custom("Montserrat", size: 16))
+                            .tint(productsUI.colorManager(color: "base_white"))
+                            .multilineTextAlignment(.leading)
                     }
                     .frame(width: productsUI.deviceWidth / 2, height: 50)
                     .background(productsUI.colorManager(color: "primary"))
@@ -59,24 +40,25 @@ struct HomeView: View {
                     .shadow(color: .gray, radius: 2, x: 0, y: 2)
                     .padding(.bottom, 20)
                     
-                    Button(action: loadAndNavigateToB) {
-                        
+                    Button(action: {
+                        Task {
+                            await presenter.action(.navigateToB)
+                        }
+                    }) {
                         Text("B Country")
                             .font(.custom("Montserrat", size: 16))
                             .tint(productsUI.colorManager(color: "base_white"))
                             .multilineTextAlignment(.leading)
-                        
                     }
                     .frame(width: productsUI.deviceWidth / 2, height: 50)
                     .background(productsUI.colorManager(color: "primary"))
                     .cornerRadius(6)
                     .shadow(color: .gray, radius: 2, x: 0, y: 2)
                     .padding(.bottom, 20)
-                    
                 }
                 .padding()
                 
-                if isLoadingToA {
+                if presenter.model.isLoadingToA {
                     ZStack {
                         Color.gray.opacity(0.3)
                             .edgesIgnoringSafeArea(.all)
@@ -84,11 +66,11 @@ struct HomeView: View {
                             .progressViewStyle(CircularProgressViewStyle())
                         
                         NavigationLink(
-                            destination: PaisAView(),
-                            isActive: $isNavigatingToA
+                            destination: PaisAView(presenter: CountriesPresenter()),
+                            isActive: $presenter.model.isNavigatingToA
                         ) { }
                     }
-                } else if isLoadingToB {
+                } else if presenter.model.isLoadingToB {
                     ZStack {
                         Color.gray.opacity(0.3)
                             .edgesIgnoringSafeArea(.all)
@@ -96,8 +78,8 @@ struct HomeView: View {
                             .progressViewStyle(CircularProgressViewStyle())
                         
                         NavigationLink(
-                            destination: PaisBView(),
-                            isActive: $isNavigatingToB
+                            destination: PaisBView(presenter: CountriesPresenter()),
+                            isActive: $presenter.model.isNavigatingToB
                         ) { }
                     }
                 }
@@ -107,21 +89,4 @@ struct HomeView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-
-    private func loadAndNavigateToA() {
-        isLoadingToA = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            isLoadingToA = false
-            isNavigatingToA = true
-        }
-    }
-    
-    private func loadAndNavigateToB() {
-        isLoadingToB = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            isLoadingToB = false
-            isNavigatingToB = true
-        }
-    }
-
 }

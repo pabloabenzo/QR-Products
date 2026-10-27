@@ -1,17 +1,8 @@
-//
-//  APIViewModel.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import Foundation
 import Observation
-import Combine
 
 @Observable
-final class APIViewModel: ObservableObject {
-    
+final class APIViewModel {
     var url = URL(string: "https://fakestoreapi.com/products")
     var urlPlatzi = URL(string: "https://api.escuelajs.co/api/v1/products")
     
@@ -19,5 +10,4 @@ final class APIViewModel: ObservableObject {
         let (data, _) = try await URLSession.shared.data(from: url)
         return try JSONDecoder().decode([T].self, from: data)
     }
-    
 }

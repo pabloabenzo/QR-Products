@@ -1,20 +1,13 @@
-//
-//  ModalView.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import SwiftUI
 
 struct ModalView: View {
     
     @State private var productsUI = ProductsUI()
+    @State var presenter = QRPresenter()
     
     let title: String
     let description: String
     
-    @State private var isScannerVisible = false
     @Binding var scannedCode: String
     @Environment(\.dismiss) var dismiss
 
@@ -37,7 +30,9 @@ struct ModalView: View {
                 .multilineTextAlignment(.center)
             
             Button {
-                isScannerVisible = true
+                Task {
+                    await presenter.action(.showScanner)
+                }
             } label: {
                 Text("Abrir QR")
             }
@@ -47,7 +42,7 @@ struct ModalView: View {
             .shadow(color: .gray, radius: 2, x: 0, y: 2)
             .padding(.bottom, 20)
 
-            if isScannerVisible {
+            if presenter.model.isScannerVisible {
                 QRScannerView { code in
                     scannedCode = code
                     dismiss()
@@ -60,7 +55,4 @@ struct ModalView: View {
         }
         .padding()
     }
-    
 }
-
-

@@ -1,22 +1,12 @@
-//
-//  PaisAView.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import SwiftUI
 
 struct PaisAView: View {
     
-    @State private var viewModel = APIViewModel()
+    @State var presenter: CountriesPresenter
     @State private var productsUI = ProductsUI()
-    
-    @State private var products: [ProductData] = []
-    @State private var selectedProduct: ProductData? = nil
     @Environment(\.dismiss) private var dismiss
     
-    // Navegación a otras vistas.
+    @State private var selectedProductModel: ProductModel? = nil
     @State private var showModal = false
     @State private var scannedCode = ""
     @State private var navigateTo = false
@@ -26,11 +16,11 @@ struct PaisAView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(products, id: \.hashValue) { product in
+                    ForEach(presenter.model.products, id: \.id) { product in
                         Button {
                             showModal = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                selectedProduct = product
+                                selectedProductModel = product
                                 showModal = true
                             }
                         } label: {
@@ -78,8 +68,8 @@ struct PaisAView: View {
                 }
                 .sheet(isPresented: $showModal) {
                     ModalView(
-                        title: selectedProduct?.title ?? "",
-                        description: selectedProduct?.description ?? "There is no description available for this product.",
+                        title: selectedProductModel?.title ?? "",
+                        description: selectedProductModel?.description ?? "There is no description available for this product.",
                         scannedCode: $scannedCode
                     )
                 }
@@ -87,7 +77,7 @@ struct PaisAView: View {
                 .navigationBarTitleDisplayMode(.large)
             }
             
-            NavigationLink(destination: CardView(), isActive: $navigateTo) {
+            NavigationLink(destination: CardView(presenter: CardPresenter()), isActive: $navigateTo) {
                 EmptyView()
             }
         }
@@ -107,16 +97,15 @@ struct PaisAView: View {
         .onAppear {
             navigateTo = false
             Task {
-                do {
-                    products = try await viewModel.fetchData(from: viewModel.url!)
-                } catch {
-                    print("Error loading products: \(error)")
-                }
+                await presenter.action(.loadProducts)
             }
         }
         .onChange(of: scannedCode) { newValue in
             let cleanCode = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
-
+            Task {
+                await presenter.action(.scanCode(cleanCode))
+            }
+            
             if let codeInt = Int(cleanCode) {
                 switch codeInt {
                 case 1...15:
@@ -138,8 +127,4 @@ struct PaisAView: View {
             Text("The scanned QR code does not belong to any product.")
         }
     }
-}
-
-#Preview {
-    PaisAView()
 }

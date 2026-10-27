@@ -1,23 +1,13 @@
-//
-//  PaisBView.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import Foundation
 import SwiftUI
 
 struct PaisBView: View {
     
-    @State private var viewModel = APIViewModel()
+    @State var presenter: CountriesPresenter
     @State private var productsUI = ProductsUI()
-    
-    @State private var products: [ProductDataPlatzi] = []
-    @State private var selectedProduct: ProductDataPlatzi? = nil
     @Environment(\.dismiss) private var dismiss
     
-    // Navegación a otras vistas.
+    @State private var selectedProductModel: ProductModelPlatzi? = nil
     @State private var showModal = false
     @State private var scannedCode = ""
     @State private var navigateTo = false
@@ -27,17 +17,17 @@ struct PaisBView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(products, id: \.id) { product in
+                    ForEach(presenter.model.productsPlatzi, id: \.id) { product in
                         Button {
                             showModal = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                selectedProduct = product
+                                selectedProductModel = product
                                 showModal = true
                             }
                         } label: {
                             HStack(alignment: .top, spacing: 12) {
                                 VStack(alignment: .leading, spacing: 8) {
-                                    AsyncImage(url: URL(string: product.images[0])) { phase in
+                                    AsyncImage(url: URL(string: product.image)) { phase in
                                         switch phase {
                                         case .empty, .failure:
                                             EmptyView()
@@ -69,7 +59,7 @@ struct PaisBView: View {
                                         .lineLimit(3)
                                         .foregroundColor(productsUI.colorManager(color: "base_gray"))
                                     
-                                    Text(product.category.name)
+                                    Text(product.categoryName)
                                         .font(.headline)
                                 }
                             }
@@ -82,8 +72,8 @@ struct PaisBView: View {
                 }
                 .sheet(isPresented: $showModal) {
                     ModalView(
-                        title: selectedProduct?.title ?? "",
-                        description: selectedProduct?.description ?? "There is no description available for this product.",
+                        title: selectedProductModel?.title ?? "",
+                        description: selectedProductModel?.description ?? "There is no description available for this product.",
                         scannedCode: $scannedCode
                     )
                 }
@@ -91,7 +81,7 @@ struct PaisBView: View {
                 .navigationBarTitleDisplayMode(.large)
             }
             
-            NavigationLink(destination: CardView(), isActive: $navigateTo) {
+            NavigationLink(destination: CardView(presenter: CardPresenter()), isActive: $navigateTo) {
                 EmptyView()
             }
         }
@@ -111,15 +101,14 @@ struct PaisBView: View {
         .onAppear {
             navigateTo = false
             Task {
-                do {
-                    products = try await viewModel.fetchData(from: viewModel.urlPlatzi!)
-                } catch {
-                    print("Error loading products: \(error)")
-                }
+                await presenter.action(.loadProductsPlatzi)
             }
         }
         .onChange(of: scannedCode) { newValue in
             let cleanCode = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            Task {
+                await presenter.action(.scanCode(cleanCode))
+            }
 
             if let codeInt = Int(cleanCode) {
                 switch codeInt {
@@ -143,7 +132,3 @@ struct PaisBView: View {
         }
     }
 }
-
-//#Preview {
-//    PaisBView()
-//}

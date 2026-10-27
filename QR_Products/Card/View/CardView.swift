@@ -1,19 +1,11 @@
-//
-//  CardView.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import SwiftUI
 
 struct CardView: View {
     
-    @State private var cardVM = CardViewModel()
+    @State var presenter: CardPresenter
     @State private var productsUI = ProductsUI()
     
     @State private var isProgressView = false
-    @State private var isNavigatingToHome = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -33,13 +25,13 @@ struct CardView: View {
                     
                     Section(header: Text("Datos de la tarjeta")) {
                         
-                        TextField("Número de tarjeta", text: $cardVM.cardNumber)
+                        TextField("Número de tarjeta", text: $presenter.model.cardNumber)
                             .keyboardType(.numberPad)
                         
-                        TextField("Expiración (MM/YY)", text: $cardVM.expiration)
+                        TextField("Expiración (MM/YY)", text: $presenter.model.expiration)
                             .keyboardType(.numbersAndPunctuation)
                         
-                        TextField("CVV", text: $cardVM.cvv)
+                        TextField("CVV", text: $presenter.model.cvv)
                             .keyboardType(.numberPad)
                             .frame(width: 80)
                         
@@ -47,13 +39,10 @@ struct CardView: View {
                     
                     Button("Pagar") {
                         isProgressView = true
-                        cardVM.pay()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            isProgressView = false
-                            if cardVM.isPaymentValid {
-                                cardVM.paymentSuccess = true
-                            } else {
-                                cardVM.showError = true
+                        Task {
+                            await presenter.action(.pay)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                isProgressView = false
                             }
                         }
                     }
@@ -61,43 +50,23 @@ struct CardView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(productsUI.colorManager(color: "primary"))
-                    .cornerRadius(8)
+                    .cornerRadius(6)
+                    .listRowBackground(Color.clear)
                     
-                    .alert("Datos inválidos", isPresented: $cardVM.showError) {
-                        Button("Intentar de nuevo", role: .cancel) { }
-                    } message: {
-                        Text("Verifica que todos los campos sean correctos.")
-                    }
-                    .navigationTitle("Pago")
                 }
-                .alert("Pago exitoso", isPresented: $cardVM.paymentSuccess) {
-                    Button("OK", role: .cancel) {
-                        isNavigatingToHome = true
-                    }
-                }
-                .alert("Datos inválidos", isPresented: $cardVM.showError) {
-                    Button("Intentar de nuevo", role: .cancel) { }
-                } message: {
-                    Text("Verifica que todos los campos sean correctos.")
-                }
-                .navigationTitle("Pago")
+                .scrollContentBackground(.hidden)
                 
                 if isProgressView {
                     ZStack {
-                        Color.black.opacity(0.4)
-                            .ignoresSafeArea()
-                        ProgressView()
+                        Color.gray.opacity(0.3)
+                            .edgesIgnoringSafeArea(.all)
+                        ProgressView("")
                             .progressViewStyle(CircularProgressViewStyle())
-                            .scaleEffect(1.5)
                     }
                 }
-                
-                NavigationLink(
-                    destination: HomeView(),
-                    isActive: $isNavigatingToHome
-                ) { EmptyView() }
             }
-            
+            .navigationTitle("Payment")
+            .navigationBarTitleDisplayMode(.large)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -112,9 +81,17 @@ struct CardView: View {
                 }
             }
         }
+        .alert("Error", isPresented: $presenter.model.showError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Incorrect card details.")
+        }
+        .alert("Success", isPresented: $presenter.model.paymentSuccess) {
+            Button("OK") {
+                dismiss()
+            }
+        } message: {
+            Text("Payment successful.")
+        }
     }
 }
-
-//#Preview {
-//    CardView()
-//}

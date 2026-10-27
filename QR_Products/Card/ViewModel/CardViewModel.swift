@@ -1,16 +1,8 @@
-//
-//  CardViewModel.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 15/06/2025.
-//
-
 import Foundation
 import Observation
-import Combine
 
 @Observable
-class CardViewModel: ObservableObject {
+final class CardViewModel {
     var cardNumber: String = ""
     var cvv: String = ""
     var expiration: String = ""

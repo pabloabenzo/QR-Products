@@ -1,34 +1,37 @@
-//
-//  LoginView.swift
-//  QR_Products
-//
-//  Created by Pablo Benzo on 12/06/2025.
-//
-
 import UIKit
 import SwiftUI
-import KeychainSwift
 
 class LoginViewController: UIViewController {
     
-    var viewModel = APIViewModel()
-    var loginAuth = LoginAuth()
-    var productsUI = ProductsUI()
-    
-    let keychain = KeychainSwift(keyPrefix: "com.tuempresa.qrproducts")
+    var presenter: LoginPresenter?
+    var router: LoginRouter?
     
     private let usuarioTextField = UITextField()
     private let passwordTextField = UITextField()
     private let loginButton = UIButton(type: .system)
     private let googleButton = UIButton(type: .system)
-    private let appleButton = UIButton(type: .system)
     private let forgotPasswordButton = UIButton(type: .system)
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
+    private let productsUI = ProductsUI()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupPresenter()
         setupView()
-        preloadUsername()
+        Task {
+            await presenter?.action(.preloadUser)
+            if let email = presenter?.model.userEmail {
+                usuarioTextField.text = email
+            }
+        }
+    }
+    
+    private func setupPresenter() {
+        presenter = LoginPresenter()
+        router = LoginRouter()
+        router?.navigationController = navigationController
+        presenter?.router = router
     }
     
     private func setupView() {
@@ -49,17 +52,19 @@ class LoginViewController: UIViewController {
         usuarioTextField.keyboardType = .emailAddress
         usuarioTextField.borderStyle = .roundedRect
         usuarioTextField.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        usuarioTextField.addTarget(self, action: #selector(emailChanged), for: .editingChanged)
         
         passwordTextField.placeholder = "Password"
         passwordTextField.isSecureTextEntry = true
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        passwordTextField.addTarget(self, action: #selector(passwordChanged), for: .editingChanged)
         
         loginButton.setTitle("Login", for: .normal)
         loginButton.backgroundColor = productsUI.uiColorManager(color: "primary")
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.layer.cornerRadius = 6
-        loginButton.addTarget(self, action: #selector(loadAndNavigate), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         forgotPasswordButton.setTitle("Have you forgotten your password?", for: .normal)
@@ -79,7 +84,7 @@ class LoginViewController: UIViewController {
             googleButton.contentHorizontalAlignment = .center
         }
         
-        googleButton.addTarget(self, action: #selector(handleGoogleLogin), for: .touchUpInside)
+        googleButton.addTarget(self, action: #selector(googleTapped), for: .touchUpInside)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
@@ -90,7 +95,6 @@ class LoginViewController: UIViewController {
             loginButton,
             forgotPasswordButton,
             googleButton,
-            appleButton,
             activityIndicator
         ])
         stackView.axis = .vertical
@@ -111,49 +115,29 @@ class LoginViewController: UIViewController {
         view.endEditing(true)
     }
     
-    //Comprobacion de credenciales.
-    @objc private func loadAndNavigate() {
+    @objc private func emailChanged() {
+        presenter?.model.userEmail = usuarioTextField.text ?? ""
+    }
+    
+    @objc private func passwordChanged() {
+        presenter?.model.password = passwordTextField.text ?? ""
+    }
+    
+    @objc private func loginTapped() {
         dismissKeyboard()
-        
-        guard isLoginValid() else {
-            let alert = UIAlertController(title: "Error", message: "Incorrect user and password.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            present(alert, animated: true)
-            return
-        }
-
-        keychain.set(usuarioTextField.text ?? "", forKey: "usuario")
-        
-        activityIndicator.startAnimating()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.activityIndicator.stopAnimating()
-            let countryVC = UIHostingController(rootView: HomeView())
-            self.navigationController?.pushViewController(countryVC, animated: true)
-        }
-    }
-    
-    private func isLoginValid() -> Bool {
-        return usuarioTextField.text == "pbenzo@apple.com"
-            && passwordTextField.text == "safeCode123"
-    }
-    
-     private func preloadUsername() {
-         if let savedUser = keychain.get("usuario") {
-             usuarioTextField.text = savedUser
-        }
-    }
-    
-    @objc private func handleGoogleLogin() {
         Task {
-            do {
-                try await loginAuth.signInWithGoogle()
-                let countryVC = UIHostingController(rootView: HomeView())
-                self.navigationController?.pushViewController(countryVC, animated: true)
-            } catch {
-                let alert = UIAlertController(title: "Error", message: "Error logging in with Google: \(error.localizedDescription)", preferredStyle: .alert)
+            await presenter?.action(.login)
+            if !(presenter?.model.isLoginValid ?? false) {
+                let alert = UIAlertController(title: "Error", message: "Incorrect user and password.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alert, animated: true)
+                present(alert, animated: true)
             }
+        }
+    }
+    
+    @objc private func googleTapped() {
+        Task {
+            await presenter?.action(.googleLogin)
         }
     }
 }
