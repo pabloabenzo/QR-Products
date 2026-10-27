@@ -45,18 +45,18 @@ struct PaisAView: View {
                                     Text("$ \(String(format: "%.2f", product.price))")
                                         .font(.subheadline)
                                         .fontWeight(.bold)
-                                        .foregroundColor(productsUI.colorManager(color: "secondary"))
+                                        .foregroundStyle(productsUI.colorManager(color: "secondary"))
                                 }
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(product.title)
                                         .font(.headline)
-                                        .foregroundColor(productsUI.colorManager(color: "primary"))
+                                        .foregroundStyle(productsUI.colorManager(color: "primary"))
                                     
                                     Text(product.description)
                                         .font(.subheadline)
                                         .lineLimit(3)
-                                        .foregroundColor(productsUI.colorManager(color: "base_gray"))
+                                        .foregroundStyle(productsUI.colorManager(color: "base_gray"))
                                 }
                             }
                             Spacer()
@@ -88,9 +88,9 @@ struct PaisAView: View {
                     dismiss()
                 }) {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(productsUI.colorManager(color: "system_blue"))
+                        .foregroundStyle(productsUI.colorManager(color: "system_blue"))
                     Text("Back")
-                        .foregroundColor(productsUI.colorManager(color: "system_blue"))
+                        .foregroundStyle(productsUI.colorManager(color: "system_blue"))
                 }
             }
         }
@@ -100,7 +100,7 @@ struct PaisAView: View {
                 await presenter.action(.loadProducts)
             }
         }
-        .onChange(of: scannedCode) { newValue in
+        .onChange(of: scannedCode) { _, newValue in
             let cleanCode = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
             Task {
                 await presenter.action(.scanCode(cleanCode))

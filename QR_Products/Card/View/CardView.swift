@@ -12,8 +12,8 @@ struct CardView: View {
         NavigationStack {
             ZStack {
                 Rectangle()
-                    .foregroundColor(productsUI.colorManager(color: "secondary"))
-                    .edgesIgnoringSafeArea(.all)
+                    .foregroundStyle(productsUI.colorManager(color: "secondary"))
+                    .ignoresSafeArea(.all)
                     .onTapGesture {
                         productsUI.hideKeyboard()
                     }
@@ -46,7 +46,7 @@ struct CardView: View {
                             }
                         }
                     }
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(productsUI.colorManager(color: "primary"))
@@ -59,7 +59,7 @@ struct CardView: View {
                 if isProgressView {
                     ZStack {
                         Color.gray.opacity(0.3)
-                            .edgesIgnoringSafeArea(.all)
+                            .ignoresSafeArea(.all)
                         ProgressView("")
                             .progressViewStyle(CircularProgressViewStyle())
                     }
@@ -75,9 +75,9 @@ struct CardView: View {
                     dismiss()
                 }) {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(productsUI.colorManager(color: "system_blue"))
+                        .foregroundStyle(productsUI.colorManager(color: "system_blue"))
                     Text("Back")
-                        .foregroundColor(productsUI.colorManager(color: "system_blue"))
+                        .foregroundStyle(productsUI.colorManager(color: "system_blue"))
                 }
             }
         }

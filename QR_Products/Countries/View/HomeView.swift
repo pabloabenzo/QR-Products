@@ -9,8 +9,8 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 Rectangle()
-                    .foregroundColor(productsUI.colorManager(color: "secondary"))
-                    .edgesIgnoringSafeArea(.all)
+                    .foregroundStyle(productsUI.colorManager(color: "secondary"))
+                    .ignoresSafeArea(.all)
                     .onTapGesture {
                         productsUI.hideKeyboard()
                     }
@@ -19,7 +19,7 @@ struct HomeView: View {
                     VStack {
                         Text("Please select the country of residence:")
                             .font(.custom("Montserrat", size: 18))
-                            .tint(productsUI.colorManager(color: "base_black"))
+                            .foregroundStyle(productsUI.colorManager(color: "base_black"))
                             .multilineTextAlignment(.leading)
                     }
                     .padding(.leading, 10).padding(.bottom, 100)
@@ -31,7 +31,7 @@ struct HomeView: View {
                     }) {
                         Text("A Country")
                             .font(.custom("Montserrat", size: 16))
-                            .tint(productsUI.colorManager(color: "base_white"))
+                            .foregroundStyle(productsUI.colorManager(color: "base_white"))
                             .multilineTextAlignment(.leading)
                     }
                     .frame(width: productsUI.deviceWidth / 2, height: 50)
@@ -47,7 +47,7 @@ struct HomeView: View {
                     }) {
                         Text("B Country")
                             .font(.custom("Montserrat", size: 16))
-                            .tint(productsUI.colorManager(color: "base_white"))
+                            .foregroundStyle(productsUI.colorManager(color: "base_white"))
                             .multilineTextAlignment(.leading)
                     }
                     .frame(width: productsUI.deviceWidth / 2, height: 50)
@@ -61,7 +61,7 @@ struct HomeView: View {
                 if presenter.model.isLoadingToA {
                     ZStack {
                         Color.gray.opacity(0.3)
-                            .edgesIgnoringSafeArea(.all)
+                            .ignoresSafeArea(.all)
                         ProgressView("")
                             .progressViewStyle(CircularProgressViewStyle())
                         
@@ -73,7 +73,7 @@ struct HomeView: View {
                 } else if presenter.model.isLoadingToB {
                     ZStack {
                         Color.gray.opacity(0.3)
-                            .edgesIgnoringSafeArea(.all)
+                            .ignoresSafeArea(.all)
                         ProgressView("")
                             .progressViewStyle(CircularProgressViewStyle())
                         
