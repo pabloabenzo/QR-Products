@@ -40,7 +40,7 @@ Aplicación iOS híbrida con UIKit + SwiftUI que permite login manual o con Goog
 ### Credenciales de prueba:
 
 - Usuario: `pbenzo@apple.com`
-- Contraseña: `claveSegura123`
+- Contraseña: `safeCode123`
 
 ---
 
