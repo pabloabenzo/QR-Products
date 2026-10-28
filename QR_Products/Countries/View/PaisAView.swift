@@ -76,10 +76,9 @@ struct PaisAView: View {
                 .navigationTitle("A Country")
                 .navigationBarTitleDisplayMode(.large)
             }
-            
-            NavigationLink(destination: CardView(presenter: CardPresenter()), isActive: $navigateTo) {
-                EmptyView()
-            }
+        }
+        .navigationDestination(isPresented: $navigateTo) {
+            CardView(presenter: CardPresenter())
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {

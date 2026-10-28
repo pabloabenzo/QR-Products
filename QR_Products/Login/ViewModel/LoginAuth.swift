@@ -20,8 +20,8 @@ class LoginAuth: UIViewController, ASAuthorizationControllerDelegate {
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
         
-        guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let rootViewController = await windowScene.windows.first?.rootViewController else { return false }
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootViewController = windowScene.windows.first?.rootViewController else { return false }
         
         do {
             let signInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)

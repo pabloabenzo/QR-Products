@@ -79,9 +79,15 @@ class LoginViewController: UIViewController {
         if let googleIcon = UIImage(named: "google_icon") {
             googleButton.setImage(googleIcon, for: .normal)
             googleButton.imageView?.contentMode = .scaleAspectFit
-            googleButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
-            googleButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: -10)
+            var configuration = UIButton.Configuration.plain()
+            configuration.image = googleIcon
+            configuration.title = "Login with Google"
+            configuration.imagePadding = 10
+            configuration.baseForegroundColor = productsUI.uiColorManager(color: "primary")
+            googleButton.configuration = configuration
             googleButton.contentHorizontalAlignment = .center
+        } else {
+            googleButton.setTitle("Login with Google", for: .normal)
         }
         
         googleButton.addTarget(self, action: #selector(googleTapped), for: .touchUpInside)

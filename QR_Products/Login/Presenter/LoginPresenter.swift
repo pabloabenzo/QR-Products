@@ -29,11 +29,8 @@ final class LoginPresenter {
                 router?.showHome()
             }
         case .googleLogin:
-            do {
-                try await loginAuth.signInWithGoogle()
-                router?.showHome()
-            } catch {
-            }
+            let _ = await loginAuth.signInWithGoogle()
+            router?.showHome()
         }
     }
 }

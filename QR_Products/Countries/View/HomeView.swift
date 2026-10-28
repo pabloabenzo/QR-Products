@@ -64,11 +64,6 @@ struct HomeView: View {
                             .ignoresSafeArea(.all)
                         ProgressView("")
                             .progressViewStyle(CircularProgressViewStyle())
-                        
-                        NavigationLink(
-                            destination: PaisAView(presenter: CountriesPresenter()),
-                            isActive: $presenter.model.isNavigatingToA
-                        ) { }
                     }
                 } else if presenter.model.isLoadingToB {
                     ZStack {
@@ -76,16 +71,17 @@ struct HomeView: View {
                             .ignoresSafeArea(.all)
                         ProgressView("")
                             .progressViewStyle(CircularProgressViewStyle())
-                        
-                        NavigationLink(
-                            destination: PaisBView(presenter: CountriesPresenter()),
-                            isActive: $presenter.model.isNavigatingToB
-                        ) { }
                     }
                 }
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.large)
+            .navigationDestination(isPresented: $presenter.model.isNavigatingToA) {
+                PaisAView(presenter: CountriesPresenter())
+            }
+            .navigationDestination(isPresented: $presenter.model.isNavigatingToB) {
+                PaisBView(presenter: CountriesPresenter())
+            }
         }
         .navigationBarBackButtonHidden(true)
     }
